@@ -24,11 +24,11 @@ class Airport
   end
 
   def land plane
-    @planes << plane unless full? 
+    @planes << plane unless full? || self.conditions == :stormy
   end
 
   def request_take_off_to plane
-    @planes.delete plane
+    @planes.delete plane unless self.conditions == :stormy
   end
 
 end
