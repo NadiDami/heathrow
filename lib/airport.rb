@@ -1,10 +1,10 @@
-require 'weather'
+require_relative 'weather'
 
 class Airport
 
-  extend Weather
+  include Weather
 
-  attr_reader :capacity, :weather, :planes
+  attr_reader :capacity, :planes
 
   def initialize planes = [], capacity = 20
     @planes = planes
@@ -23,12 +23,20 @@ class Airport
     plane_count == @capacity
   end
 
+  def stormy?
+    self.conditions == :stormy
+  end
+
   def land plane
-    @planes << plane unless full? || self.conditions == :stormy
+    @planes << plane  if clear_for_landing?
   end
 
   def request_take_off_to plane
-    @planes.delete plane unless self.conditions == :stormy
+    @planes.delete plane unless stormy?
+  end
+
+  def clear_for_landing?
+    true if !full? && !stormy?
   end
 
 end

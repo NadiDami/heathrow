@@ -7,7 +7,12 @@ shared_examples 'Weather' do
 
     it 'be mostly sunny' do
       expect(Random).to receive(:rand).with(1..10).and_return(1)
-      expect(described_class.conditions).to eq :sunny
+      expect(weather.conditions).to eq :sunny
+    end
+
+    it 'be sometimes stormy' do
+      expect(Random).to receive(:rand).with(1..10).and_return(10)
+      expect(weather.conditions).to eq :stormy
     end
 
   end

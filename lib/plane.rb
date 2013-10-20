@@ -3,11 +3,12 @@ class Plane
   attr_accessor :status
 
   def initialize 
-    flying
+    @flying = true
   end
 
-  def flying?
-    @flying
+  def status
+    return 'flying' if @flying == true
+    'landed'
   end
 
   def flying
@@ -16,6 +17,7 @@ class Plane
 
   def landed
     @flying = false
+    status
   end
 
   def take_off_from airport
@@ -25,7 +27,8 @@ class Plane
 
   def land_at airport
     airport.land self
-    self.landed
+    @flying = false if airport.planes.include? self
   end
+
 
 end

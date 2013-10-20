@@ -43,7 +43,7 @@ describe Airport do
 
   end
 
-  context 'weather conditions' do
+  context 'bad weather conditions' do
 
     before(:each) do 
       Airport.any_instance.stub(:conditions).and_return(:stormy)
@@ -55,12 +55,24 @@ describe Airport do
       expect(airport.plane_count).to eq 1
     end
 
-    it 'a plan cannot land in the middle of a storm' do
+    it 'a plane cannot land in the middle of a storm' do
       airport = Airport.new [plane]
       airport.land plane
       expect(airport.plane_count).to eq 1
     end
 
+    end
+
+  context 'good weather conditions' do
+
+    it 'a plane can land as long as the weather is sunny and airport is not full' do
+      Airport.any_instance.stub(:conditions).and_return(:sunny)
+      airport = Airport.new [plane, plane], 6
+      expect(airport.clear_for_landing?).to be_true
+    end
+
   end
+
+
 
 end
